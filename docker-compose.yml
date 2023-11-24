@@ -1,0 +1,9 @@
+version: '2'
+services:
+  claim-service:
+    build: .
+    ports:
+      - 8085:8085
+    volumes:
+      - .:/claims
+      - /claims/vendor

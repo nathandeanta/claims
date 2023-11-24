@@ -1,0 +1,48 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="main-panel">
+        <div class="content-wrapper">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ title }}</h4>
+                        <form class="form-sample" action="{{ path('upload_debts_create') }}" method="POST" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>File upload</label>
+                                        <input type="file" name="img[]" class="file-upload-default">
+                                        <div class="input-group col-xs-12">
+                                            <input type="file" class="form-control file-upload-info" name="upload" required>
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-gradient-primary" type="submit">Upload</button>
+                                              </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 col-form-label">Bank</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="bank">
+                                                <option selected>Nubank</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
