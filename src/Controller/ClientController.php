@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ClientController extends Controller
 {
-
     #[Route('/client', name: 'app_client')]
     public function index(Request $request, SessionInterface $session): Response
     {
