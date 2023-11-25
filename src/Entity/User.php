@@ -24,11 +24,30 @@ class User
     #[ORM\Column(type: "string", length: 255,nullable: true)]
     private ?string $position;
 
+    #[ORM\Column(type: "string", length: 255,nullable: true)]
+    private ?string $avatar;
+
     #[ORM\Column(type: "integer")]
     private ?int $admin=0;
 
     #[ORM\Column(type: "integer")]
     private ?int $active=0;
+
+    /**
+     * @return string|null
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string|null $avatar
+     */
+    public function setAvatar(?string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
 
     public function getIdUser(): ?int
     {

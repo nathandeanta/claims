@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/dropify/dropify.min.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            {%  if error is defined %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ type_error }}</strong> {{ message_error}}
+                </div>
+            {% endif %}
+
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar exclusão</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza de que deseja excluir este item?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a  id="deleteLink" href="{{ path('delete_user', {'id': user.idUser}) }}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="../../../{{ user.avatar is null or user.avatar == "" ? "uploads/avatars/default-user.jpeg": user.avatar }}" alt="profile" class="img-lg rounded-circle mb-3" />
+                        <h4 class="card-title">{{ title }}</h4>
+                        <form class="form-sample" action="{{ path('app_user_view_update',{'id_user': user.idUser}) }}" method="POST" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Status</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="active">
+                                                <option value="0" {{ user.active == "0" ? "selected":"" }} >Disabled</option>
+                                                <option value="1" {{ user.active == "1" ? "selected":"" }}>Activated</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Nome</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="first_name"  value="{{ user.name }}" required />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">E-mail</label>
+                                        <div class="col-sm-6">
+                                            <input type="email" class="form-control" name="email" value="{{ user.email }}" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Senha</label>
+                                        <div class="col-sm-6">
+                                            <input id="dateInput" type="password" class="form-control"  name="password" value="{{ user.password }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Admin</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="admin">
+                                                <option value="0" {{ user.admin == "0" ? "selected":"" }} >No</option>
+                                                <option value="1" {{ user.admin == "1" ? "selected":"" }}>Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Position</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="position" value="{{ user.position }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <h4 class="card-title">Avatar</h4>
+                                    <input type="file" class="dropify" name="avatar" accept=".png, .jpg, .jpeg"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Delete</a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}"></script>
+    <script src="{{ asset(path ~'assets/js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset(path ~'js/dropify.js')}}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

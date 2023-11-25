@@ -25,10 +25,12 @@ class Controller extends AbstractController
         $this->sessionDTO->setIdUser($session->get("client_id"));
         $this->sessionDTO->setName($session->get("client_name"));
         $this->sessionDTO->setEmail($session->get("client_email"));
+        $this->sessionDTO->setPassword($session->get("user_password")??null);
+        $this->sessionDTO->setAdmin($session->get("user_admin")??'0');
+        $this->sessionDTO->setPosition($session->get("user_position")??'');
+        $this->sessionDTO->setAvatar($this->getPathEnvAvatar().$session->get("user_avatar"));
 
-      /*  $this->sessionDTO->setPassword($session->get("user_password"));
-        $this->sessionDTO->setAdmin($session->get("user_admin"));
-        $this->sessionDTO->setPosition($session->get("user_position"));*/
+        return true;
 
     }
 
@@ -42,6 +44,18 @@ class Controller extends AbstractController
            return  "public/assets/";
         }
 
+    }
+
+    protected function  getPathEnvAvatar(): string
+    {
+        $env = $_ENV["APP_ENV"]??'dev';
+
+        if($env == 'prod') {
+            return  "public/";
+        }else{
+            return "../../";
+        }
+        return '';
     }
 
 }

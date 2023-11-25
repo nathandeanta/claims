@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/jquery-bar-rating/css-stars.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/demo_1/style.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.png')}}" />
+{% endblock %}
+
 {% block body %}
 <!-- partial -->
 <div class="main-panel">
@@ -15,7 +25,7 @@
             <div class="col-md-2 stretch-card grid-margin">
                 <div class="card bg-gradient-success card-img-holder text-white">
                     <div class="card-body">
-                        <img src="{{ asset('public/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <img src="{{ asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3">Total <i class="mdi mdi-coin mdi-24px float-right"></i>
                         </h4>
                         <h2 class="mb-5">95,5741</h2>
@@ -25,10 +35,10 @@
             <div class="col-md-2 stretch-card grid-margin">
                 <div class="card bg-gradient-danger card-img-holder text-white">
                     <div class="card-body">
-                        <img src="{{ asset('public/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <img src="{{ asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3"> 1 Euro <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                         </h4>
-                        <h2 class="mb-5">R$ {{ euro_to_brl|number_format(2, ',', '.') }}
+                        <h2 class="mb-5">R$
                         </h2>
                     </div>
                 </div>
@@ -36,10 +46,10 @@
             <div class="col-md-2 stretch-card grid-margin">
                 <div class="card bg-gradient-info card-img-holder text-white">
                     <div class="card-body">
-                        <img src="{{ asset('public/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <img src="{{ asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3"> 1 USD <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                         </h4>
-                        <h2 class="mb-5">R$ {{ usd_to_brl|number_format(2, ',', '.') }}
+                        <h2 class="mb-5">R$
                         </h2>
                     </div>
                 </div>
@@ -48,10 +58,10 @@
             <div class="col-md-4 stretch-card grid-margin">
                 <div class="card bg-gradient-warning card-img-holder text-white">
                     <div class="card-body">
-                        <img src="{{ asset('public/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <img src="{{ asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3"> 1 BITCOIN <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                         </h4>
-                        <h2 class="mb-5">R$ {{ btc_to_brl|number_format(2, ',', '.') }}
+                        <h2 class="mb-5">R$
                         </h2>
                     </div>
                 </div>
@@ -60,4 +70,13 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 {% endblock %}

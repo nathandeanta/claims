@@ -15,6 +15,8 @@ class SessionDTO
     private ?string $password;
 
     private ?int $admin;
+    private ?string $avatar;
+
 
     /**
      * @return int|null
@@ -112,7 +114,17 @@ class SessionDTO
         $this->position = $position;
     }
 
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
 
-
+    /**
+     * @return string|null
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
 
 }
