@@ -24,4 +24,36 @@ class TypeRoofing
         return $this->id_type_roofing;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     */
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreated(): ?\DateTime
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime|null $created
+     */
+    public function setCreated(?\DateTime $created): void
+    {
+        $this->created = $created;
+    }
+
 }

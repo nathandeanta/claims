@@ -24,7 +24,7 @@
         {% endif %}
 
         <div class="page-header">
-            <form  action="{{ path('app_user_view') }}" method="POST" >
+            <form  action="{{ path('app_marchine_view_create') }}" method="POST" >
                 <button type="submit" class="btn btn-gradient-dark btn-fw">+ Adicionar</button>
             </form>
             <h3 class="page-title"> {{title}} </h3>
@@ -53,12 +53,22 @@
 
                             {% for theft in theft_list %}
 
-                                <tr>
+                                {% if theft.type == 'Furto Simples' %}
+                                    {% set color = 'table-danger' %}
+                                {% elseif  theft.type == 'Roubo' %}
+                                    {% set color = 'table-success' %}
+
+                                {% else %}
+                                    {% set color = 'table-info' %}
+
+                                {% endif %}
+
+                                <tr class="{{ color }}">
                                     <td>{{ theft.id }}</td>
                                     <td>{{ theft.type }}</td>
                                     <td>{{ theft.description }}</td>
                                     <td>
-                                        <form action="{{ path('app_user_view_edit',{'id_user': theft.id}) }}"><button type="submit" class="btn btn-outline-primary">View</button></form>
+                                        <form action="{{ path('app_marchine_edit',{'id': theft.id}) }}"><button type="submit" class="btn btn-outline-primary">Editar</button></form>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -78,7 +88,7 @@
         </div>
     </footer>
 
-    <script src=".{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
     <script src="{{ asset(path ~'vendors/datatables.net/jquery.dataTables.js')}}"></script>
     <script src="{{ asset(path ~'vendors/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
     <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
