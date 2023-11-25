@@ -1,0 +1,36 @@
+{% extends 'base_client.html.twig' %}
+
+{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %}
+
+{% block body %}
+
+        <div class="col-sm-4 pb-3">
+                <div class="card card-icon-top">
+                        <div class="card-body text-center">
+                                <img src="{{ asset(path ~'images/file-icons/64/007-folder.png') }}" alt="image" class="card-icon">
+                                <h4>Apolices</h4>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-sm-4 pb-3">
+                <div class="card card-icon-top">
+                        <div class="card-body text-center">
+                                <img src="{{ asset(path ~'images/faces-clipart/pic-1.png') }}" alt="image" class="card-icon">
+                                <h4>Informações Pessoais</h4>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-sm-4 pb-3">
+                <div class="card card-icon-top">
+                        <div class="card-body text-center">
+                                <img src="{{ asset(path ~'images/file-icons/64/002-tool.png') }}" alt="image" class="card-icon">
+                                <h4>Acionar Seguro</h4>
+                        </div>
+                </div>
+        </div>
+
+{% endblock %}
+
+
