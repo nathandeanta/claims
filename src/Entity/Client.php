@@ -35,8 +35,66 @@ class Client
     #[ORM\Column]
     private ?string $last_name = null;
 
+    #[ORM\Column]
+    private ?string $cellphone = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $phone = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $other_phone = null;
+
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $created = null;
+
+    /**
+     * @return string|null
+     */
+    public function getOtherPhone(): ?string
+    {
+        return $this->other_phone;
+    }
+
+    /**
+     * @param string|null $other_phone
+     */
+    public function setOtherPhone(?string $other_phone): void
+    {
+        $this->other_phone = $other_phone;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getCellphone(): ?string
+    {
+        return $this->cellphone;
+    }
+
+    /**
+     * @param string|null $cellphone
+     */
+    public function setCellphone(?string $cellphone): void
+    {
+        $this->cellphone = $cellphone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string|null $phone
+     */
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
 
     /**
      * @return string|null

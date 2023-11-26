@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/dropify/dropify.min.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            {%  if error is defined %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ type_error }}</strong> {{ message_error}}
+                </div>
+            {% endif %}
+
+            <div class="row">
+
+                <div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <i class="mdi mdi-home icon-lg text-primary d-flex align-items-center"></i>
+                                <div class="d-flex flex-column ms-4">
+                                    <div class="d-flex flex-column">
+                                        <p class="mb-0">Enderecos</p>
+                                        <h4 class="font-weight-bold">3</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <i class="mdi mdi-format-list-numbered icon-lg text-success d-flex align-items-center"></i>
+                                <div class="d-flex flex-column ms-4">
+                                    <div class="d-flex flex-column">
+                                        <p class="mb-0">Apolices</p>
+                                        <h4 class="font-weight-bold">2</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ title }}</h4>
+                        <form class="form-sample" action="{{ path('app_admin_client_persist_edit', { 'id': object.IdClient} ) }}" method="POST">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Nome</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="first_name" required  value="{{ object.firstName }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Sobrenome</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="last_name" required value="{{ object.lastName }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">CPF/CNPJ</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="document" required  value="{{ object.document }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">RG</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="rg" required value="{{ object.rg }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Data de nascimento</label>
+                                        <div class="col-sm-6">
+                                            <input type="date" class="form-control" name="date" required  value="{{ object.dateOfBirth | date('Y-m-d') }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Email</label>
+                                        <div class="col-sm-6">
+                                            <input type="email" class="form-control" name="email" required  value="{{ object.email }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Celular</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="cellphone" required  value="{{ object.cellphone }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Telefone:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="phone" required  value="{{ object.phone }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Outro Telefone de contato:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="other_phone" required  value="{{ object.otherPhone }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}"></script>
+    <script src="{{ asset(path ~'js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset(path ~'js/dropify.js')}}"></script>
+
+{% endblock %}

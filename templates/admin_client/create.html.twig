@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/dropify/dropify.min.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            {%  if error is defined %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ type_error }}</strong> {{ message_error}}
+                </div>
+            {% endif %}
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ title }}</h4>
+                        <form class="form-sample" action="{{ path('app_admin_client_persist') }}" method="POST">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Nome</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="first_name" required  value="{% if first_name is defined %}{{ first_name}}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Sobrenome</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="last_name" required value="{% if last_name is defined %}{{ last_name }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">CPF/CNPJ</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="document" id="document" required  value="{% if document is defined %}{{ document }}{% endif %}" oninput="aplicarMascara()" maxlength="18"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">RG</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="rg" id="rg" required value="{% if rg is defined %}{{ rg }}{% endif %}" oninput="aplicarMascaraRG()" maxlength="14"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Data de nascimento</label>
+                                        <div class="col-sm-6">
+                                            <input type="date" class="form-control" name="date" required  value="{% if date is defined %}{{ date }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Email</label>
+                                        <div class="col-sm-6">
+                                            <input type="email" class="form-control" name="email" required  value="{% if email is defined %}{{ email }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Celular</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="cellphone" required  value="{% if cellphone is defined %}{{ cellphone }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Telefone:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="phone" required  value="{% if phone is defined %}{{ phone }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Outro Telefone de contato:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="other_phone" required  value="{% if other_phone is defined %}{{ other_phone }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}"></script>
+    <script src="{{ asset(path ~'js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset(path ~'js/dropify.js')}}"></script>
+
+    <script>
+        function formatarCpfCnpj(valor) {
+            valor = valor.replace(/\D/g, '');
+
+            if (valor.length === 11) {
+                return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (valor.length === 14) {
+                return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            } else {
+                return valor;
+            }
+        }
+
+        function aplicarMascara() {
+            var campo = document.getElementById('document');
+            campo.value = formatarCpfCnpj(campo.value);
+        }
+
+        function formatRG(valor) {
+            valor = valor.replace(/\D/g, '');
+           return valor.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})$/, '$1.$2.$3-$4');
+
+        }
+
+        function aplicarMascaraRG() {
+            var campo = document.getElementById('rg');
+            campo.value = formatRG(campo.value);
+        }
+
+    </script>
+
+{% endblock %}
