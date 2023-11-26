@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/demo_1/style.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+
+{% endblock %}
+
+{% block title %} {% if title is defined %}{{ title }}{% endif %} {% endblock %}
+
+{% block body %}
+
+    <div class="main-panel">
+    <div class="content-wrapper">
+    {%  if error is defined %}
+        <div class="alert alert-danger" role="alert">
+            <strong>{{ type_error }}</strong> {{ message_error}}
+        </div>
+    {% endif %}
+
+        <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="errorText">Mensagem de erro aqui.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-success card-img-holder text-white">
+                <div class="card-body">
+                    <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                    <i class="mdi mdi-diamond mdi-24px float-end"></i>
+                    <h2 class="mb-5">Roubo</h2>
+                    <h6 class="card-text">é a subtração de bens, quando há ameaça ou violência, ou quando reduzem a possibilidade de resistência.</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-danger card-img-holder text-white">
+                <div class="card-body">
+                    <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                    <i class="mdi mdi-chart-line mdi-24px float-end"></i>
+                    <h2 class="mb-5">Furto Simples</h2>
+                    <h6 class="card-text"> é quando também há a subtração de bens, mas sem vestígios que
+                        comprovem a sua ocorrência, sem a destruição ou o rompimento de obstáculos e/ou sem violência constatada.</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-info card-img-holder text-white">
+                <div class="card-body">
+                    <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                    <i class="mdi mdi-bookmark-outline mdi-24px float-end"></i>
+                    <h2 class="mb-5">Furto Qualificado</h2>
+                    <h6 class="card-text">é o furto cometido mediante arrombamento, destruição e/ou rompimento de obstáculo do local em que
+                        estava guardado o celular, desde que tenha deixado vestígios e provas materiais evidentes de sua ocorrência.</h6>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ title }}</h4>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Descrição</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="desc" required>{% if desc is defined %}{{ desc }}{% endif %}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 stretch-card grid-margin" id="furtoQualificadoSection">
+                                <div class="card bg-gradient-info card-img-holder text-white">
+                                    <div class="card-body">
+                                        <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                                        <i class="mdi mdi-bookmark-outline mdi-24px float-end"></i>
+                                        <h2 class="mb-5">Furto Qualificado</h2>
+                                        <h6 class="card-text">é o furto cometido mediante arrombamento, destruição e/ou rompimento de obstáculo do local em que
+                                            estava guardado o celular, desde que tenha deixado vestígios e provas materiais evidentes de sua ocorrência.</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 stretch-card grid-margin" id="furtoSimplesSection">
+                                <div class="card bg-gradient-danger card-img-holder text-white">
+                                    <div class="card-body">
+                                        <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                                        <i class="mdi mdi-chart-line mdi-24px float-end"></i>
+                                        <h2 class="mb-5">Furto Simples</h2>
+                                        <h6 class="card-text"> é quando também há a subtração de bens, mas sem vestígios que
+                                            comprovem a sua ocorrência, sem a destruição ou o rompimento de obstáculos e/ou sem violência constatada.</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 stretch-card grid-margin" id="rouboSection">
+                                <div class="card bg-gradient-success card-img-holder text-white">
+                                    <div class="card-body">
+                                        <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                                        <i class="mdi mdi-diamond mdi-24px float-end"></i>
+                                        <h2 class="mb-5">Roubo</h2>
+                                        <h6 class="card-text">é a subtração de bens, quando há ameaça ou violência, ou quando reduzem a possibilidade de resistência.</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-primary" id="testarButton">Testar</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('#furtoQualificadoSection').hide();
+            $('#furtoSimplesSection').hide();
+            $('#rouboSection').hide();
+
+
+            $('#testarButton').click(function() {
+                var resultadoDeSucesso = true;
+
+                var descricao = $('#exampleTextarea1').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/test",
+                    data: { desc: descricao },
+                    success: function (data) {
+
+                        console.log('Sucesso na chamada Ajax');
+                        console.log(data);
+
+                        if (data.status === true) {
+                            if (data.value === 'Furto Qualificado') {
+                                $('#furtoQualificadoSection').show();
+                                $('#furtoSimplesSection').hide();
+                                $('#rouboSection').hide();
+                            } else if (data.value === 'Furto Simples') {
+                                $('#furtoQualificadoSection').hide();
+                                $('#furtoSimplesSection').show();
+                                $('#rouboSection').hide();
+                            } else if (data.value === 'Roubo') {
+                                $('#furtoQualificadoSection').hide();
+                                $('#furtoSimplesSection').hide();
+                                $('#rouboSection').show();
+                            } else {
+                                console.error('Valor inesperado retornado do servidor');
+                            }
+                        } else {
+
+                            $('#errorText').text(data.error);
+                            $('#errorModal').modal('show');
+
+                            console.error('Erro na chamada Ajax: ' + data.error);
+                        }
+
+                    },
+                    error: function (error) {
+
+                        $('#errorText').text("error");
+                        $('#errorModal').modal('show');
+                        console.error('Erro na chamada Ajax');
+                        console.error(error);
+                    }
+                });
+
+
+            });
+        });
+    </script>
+
+
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}"></script>
+    <script src="{{ asset(path ~'js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset(path ~'js/dropify.js')}}"></script>
+
+
+
+{% endblock %}

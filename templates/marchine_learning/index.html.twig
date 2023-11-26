@@ -10,7 +10,7 @@
 
 {% endblock %}
 
-{% block title %} {{ title }}{% endblock %}
+{% block title %} {% if title is defined %}{{ title }}{% endif %} {% endblock %}
 
 {% block body %}
 <!-- partial -->
@@ -24,7 +24,7 @@
         {% endif %}
 
         <div class="page-header">
-            <form  action="{{ path('app_marchine_view_create') }}" method="POST" >
+            <form  action="{{ path('app_marchine_view_create') }}" method="GET" >
                 <button type="submit" class="btn btn-gradient-dark btn-fw">+ Adicionar</button>
             </form>
             <h3 class="page-title"> {{title}} </h3>
@@ -66,7 +66,7 @@
                                 <tr class="{{ color }}">
                                     <td>{{ theft.id }}</td>
                                     <td>{{ theft.type }}</td>
-                                    <td>{{ theft.description }}</td>
+                                    <td>{{ theft.description|slice(0, 120) }}</td>
                                     <td>
                                         <form action="{{ path('app_marchine_edit',{'id': theft.id}) }}"><button type="submit" class="btn btn-outline-primary">Editar</button></form>
                                     </td>

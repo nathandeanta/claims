@@ -90,7 +90,7 @@ class MarchineLearningController extends Controller
     }
 
     #[Route('/marchine/createPersist', name: 'app_marchine_view_create_persist', methods:["POST","GET"])]
-    public function dashboard(Request $request, SessionInterface $session, TypeRoofingRepository $typeRoofingRepository): Response
+    public function marchinePersist(Request $request, SessionInterface $session, TypeRoofingRepository $typeRoofingRepository): Response
     {
         try {
 
@@ -165,9 +165,9 @@ class MarchineLearningController extends Controller
             }
 
             $marchineService = new MarchineLearningService();
-            $responde = $marchineService->details($id);
+            $response = $marchineService->details($id);
 
-            if(isset($responde["status"]) && $responde["status"] == false) {
+            if(isset($response["status"]) && $response["status"] == false) {
                 return $this->redirectToRoute('app_marchine_learning');
             }
 
@@ -176,8 +176,28 @@ class MarchineLearningController extends Controller
                 'title'=> 'Editar Aprendizado',
                 'session'=> $this->sessionDTO,
                 'types'=> $typeRoofingRepository->findAll(),
-                'learning'=> $responde["theft_details"]??null
+                'learning'=> $response["theft_details"]??null
             ]);
+
+        }catch (Exception $e) {
+            return $this->redirectToRoute('app_marchine_learning');
+        }
+    }
+
+    //delete_marchine
+    #[Route('/delete/marchine/{id}', name: 'delete_marchine',methods:["GET"])]
+    public function marchineDelete(Request $request,int $id, SessionInterface $session, TypeRoofingRepository $typeRoofingRepository): Response
+    {
+        try {
+
+            if (($valid = $this->validSession($session)) === false) {
+                return $this->render('marchine_learning/index.html.twig');
+            }
+
+            $marchineService = new MarchineLearningService();
+
+            $response = $marchineService->delete($id);
+            return $this->redirectToRoute('app_marchine_learning');
 
 
         }catch (Exception $e) {
@@ -185,5 +205,135 @@ class MarchineLearningController extends Controller
         }
     }
 
-    //app_marchine_view_edit
+    #[Route('/marchine/editPersist/{id}', name: 'app_marchine_view_edit_persist', methods:["POST","GET"])]
+    public function marchinePersistEdit(Request $request,int $id, SessionInterface $session, TypeRoofingRepository $typeRoofingRepository): Response
+    {
+        try {
+
+            if (($valid = $this->validSession($session)) === false) {
+                return $this->render('index/index.html.twig');
+            }
+
+            if ($request->isMethod('GET')) {
+                return $this->redirectToRoute('app_marchine_learning');
+            }
+
+            $type = $request->request->get("type")??'';
+            $desc = $request->request->get("desc")??'';
+
+            $dados["id"] = $id;
+            $dados["desciption"] = $desc;
+            $dados["type"] = $type;
+
+            if(empty($type) or empty($desc)) {
+
+                return $this->render('marchine_learning/edit.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Editar Aprendizado',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'session'=> $this->sessionDTO,
+                    'types'=> $typeRoofingRepository->findAll(),
+                    'message_error' => ":campos nao podem ser vazios",
+                    'learning'=> $dados
+                ]);
+            }
+
+            $marchineService = new MarchineLearningService();
+            $response = $marchineService->editLearning($type, $desc, $id);
+
+
+            if(isset($response["status"]) && $response["status"] == false) {
+
+                return $this->render('marchine_learning/edit.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'session'=> $this->sessionDTO,
+                    'title'=> 'Editar Aprendizado',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => $response["error"],
+                    'types'=> $typeRoofingRepository->findAll(),
+                    'learning'=> $dados
+                ]);
+            }
+
+            return $this->redirectToRoute('app_marchine_learning');
+
+
+        }catch (Exception $e) {
+            return $this->render('marchine_learning/edit.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Editar Aprendizado',
+                'error' => true,
+                'type_error' => "Error",
+                'message_error' => "Error ".$e->getMessage() ."file".$e->getFile(),
+                'types'=> $typeRoofingRepository->findAll(),
+                'session'=> $this->sessionDTO??null,
+                'type'=> $type??null,
+                'desc'=> $desc??null
+            ]);
+        }
+    }
+
+    #[Route('/test', name: 'app_test', methods:["GET", "POST"])]
+    public function appTest(Request $request, SessionInterface $session)
+    {
+        try {
+
+            if (($valid = $this->validSession($session)) === false) {
+                return $this->render('index/index.html.twig');
+            }
+
+            if ($request->isMethod('GET')) {
+                return $this->render('marchine_learning/test.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Test para Marchine Learning',
+                    'session'=> $this->sessionDTO,
+                ]);
+            }
+
+            $desc = $request->request->get("desc")??'';
+
+            if(empty($desc)) {
+                return $this->json([
+                    'status' => false,
+                    'message' => "desc nao pode ser vazio"
+                ]);
+
+            }
+
+              $marchineService = new MarchineLearningService();
+
+               $response =  $marchineService->test($desc);
+
+                if(isset($response["status"]) && $response["status"] == false) {
+
+                    return $this->json( [
+                        'status' => false,
+                        'message' => $response["error"]
+                    ]);
+                }
+
+                if(!isset($response["prediction"])) {
+                    return $this->json( [
+                        'status' => false,
+                        'message' => "error no prediction"
+                    ]);
+                }
+
+            return $this->json( [
+                'status' => true,
+                'value' =>$response["prediction"]
+            ]);
+
+        }catch (Exception $e) {
+            return $this->render('marchine_learning/test.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Test para Marchine Learning',
+                'error' => true,
+                'type_error' => "Error",
+                'message_error' => "Error ".$e->getMessage() ."file".$e->getFile()
+            ]);
+        }
+    }
 }

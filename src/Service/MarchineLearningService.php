@@ -99,7 +99,7 @@ class MarchineLearningService
         if(!$token) {
             return["status"=> false, "error"=> "Error no token"];
         }
-        $body = ["desc"=> $desc, "type"=> $type];
+        $body = ["desc"=> $type.", ".$desc, "type"=> $type];
 
         try {
 
@@ -200,6 +200,144 @@ class MarchineLearningService
 
                 return ["status" => false, "error" => ": Erro na requisição:". $e->getMessage()];
             }
+        }
+    }
+
+    public function delete(int $id)
+    {
+        $token =  $this->generateToken();
+
+        if(!$token) {
+            return["status"=> false, "error"=> "Error no token"];
+        }
+
+        try {
+
+            $response = $this->client->delete("/delete/theft/".$id, [
+                'headers' => $this->headers,
+                'connect_timeout' => 300,
+                'timeout' => 300
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+
+                $body = $response->getBody();
+                $content = $body->getContents();
+
+                return (json_decode($content,true));
+
+            } else {
+
+                if ($response->getStatusCode() == 400) {
+                    return ["status" => false, "error" => "nao encontrado"];
+                }
+
+                return ["status" => false, "error" => "nao encontrado"];
+
+            }
+        }catch (RequestException $e) {
+
+            $response = $e->getResponse();
+
+            if ($response) {
+                $statusCode = $response->getStatusCode();
+                $body = json_decode($response->getBody(), true);
+
+                if ($statusCode === 400 && isset($body['error'])) {
+
+                    return ["status" => false, "error" => ': nao encontrado'];
+                } else {
+
+                    return ["status" => false, "error" => ': nao encontrado ' . $response->getBody()->getContents()];
+                }
+            } else {
+
+                return ["status" => false, "error" => ": Erro na requisição:". $e->getMessage()];
+            }
+        }
+
+    }
+
+    public function editLearning(string $type, string $desc, int $id)
+    {
+        $token =  $this->generateToken();
+
+        if(!$token) {
+            return["status"=> false, "error"=> "Error no token"];
+        }
+        $body = ["desc"=> $desc, "type"=> $type];
+
+        try {
+
+
+            $response = $this->client->put("update/theft/".$id, [
+                'headers' => $this->headers,
+                'body' => json_encode($body),
+                'connect_timeout' => 300,
+                'timeout' => 300
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+
+                return ["status" => true, "mgs" => "Update com sucesso"];
+
+            } else {
+
+                if ($response->getStatusCode() == 400) {
+                    return ["status" => false, "error" => "error update"];
+                }
+
+                return ["status" => false, "error" => "erro identificado"];
+
+            }
+        }catch (RequestException $e) {
+
+            $response = $e->getResponse();
+
+            return ["status" => false, "error" => ': Erro desconhecido: ' . $response->getBody()->getContents()];
+
+        }
+    }
+
+    public function test(string $desc)
+    {
+        $token =  $this->generateToken();
+
+        if(!$token) {
+            return["status"=> false, "error"=> "Error no token"];
+        }
+        $body = ["desc"=> $desc];
+
+        try {
+
+
+            $response = $this->client->post("/theft", [
+                'headers' => $this->headers,
+                'body' => json_encode($body),
+                'connect_timeout' => 300,
+                'timeout' => 300
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+
+                $body = $response->getBody();
+                $content = $body->getContents();
+                return (json_decode($content,true));
+
+            } else {
+
+                if ($response->getStatusCode() == 400) {
+                    return ["status" => false, "error" => "error update"];
+                }
+
+                return ["status" => false, "error" => "erro identificado"];
+
+            }
+        }catch (RequestException $e) {
+
+            $response = $e->getResponse();
+            return ["status" => false, "error" => ': Erro desconhecido: ' . $response->getBody()->getContents()];
+
         }
     }
 

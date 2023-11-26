@@ -20,6 +20,44 @@
                 </div>
             {% endif %}
 
+            <div class="row">
+
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                            <i class="mdi mdi-diamond mdi-24px float-end"></i>
+                            <h2 class="mb-5">Roubo</h2>
+                            <h6 class="card-text">é a subtração de bens, quando há ameaça ou violência, ou quando reduzem a possibilidade de resistência.</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-danger card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                             <i class="mdi mdi-chart-line mdi-24px float-end"></i>
+                            <h2 class="mb-5">Furto Simples</h2>
+                            <h6 class="card-text"> é quando também há a subtração de bens, mas sem vestígios que
+                                comprovem a sua ocorrência, sem a destruição ou o rompimento de obstáculos e/ou sem violência constatada.</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-info card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="{{asset(path ~'images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                            <i class="mdi mdi-bookmark-outline mdi-24px float-end"></i>
+                            <h2 class="mb-5">Furto Qualificado</h2>
+                            <h6 class="card-text">é o furto cometido mediante arrombamento, destruição e/ou rompimento de obstáculo do local em que
+                                estava guardado o celular, desde que tenha deixado vestígios e provas materiais evidentes de sua ocorrência.</h6>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -65,7 +103,6 @@
     </div>
 
     <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
-
     <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
     <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
     <script src="{{ asset(path ~'js/misc.js')}}"></script>
