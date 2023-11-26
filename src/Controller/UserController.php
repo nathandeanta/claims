@@ -92,7 +92,7 @@ class UserController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('index/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             return $this->render('index/dashboard.html.twig', [
@@ -123,7 +123,7 @@ class UserController extends Controller
     public function listUSer(SessionInterface $session, UserRepository $userRepository): Response
     {
         if(($valid = $this->validSession($session)) === false) {
-            return $this->render('index/index.html.twig');
+            return $this->redirectToRoute('app_user_login');
         }
 
         if($this->sessionDTO->getAdmin() != "1") {
@@ -149,7 +149,7 @@ class UserController extends Controller
                                UserRepository $userRepository): Response
     {
         if(($valid = $this->validSession($session)) === false) {
-            return $this->render('index/index.html.twig');
+            return $this->redirectToRoute('app_user_login');
         }
 
         if($this->sessionDTO->getAdmin() != "1") {
@@ -174,7 +174,7 @@ class UserController extends Controller
                                     UserRepository $userRepository): Response
     {
         if(($valid = $this->validSession($session)) === false) {
-            return $this->render('index/edit.html.twig');
+            return $this->redirectToRoute('app_user_login');
         }
 
         if($this->sessionDTO->getAdmin() != "1") {
@@ -207,7 +207,7 @@ class UserController extends Controller
         EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
     {
         if(($valid = $this->validSession($session)) === false) {
-            return $this->render('index/index.html.twig');
+            return $this->redirectToRoute('app_user_login');
         }
 
         if($this->sessionDTO->getAdmin() != "1") {
@@ -298,7 +298,7 @@ class UserController extends Controller
                                     EntityManagerInterface $entityManager): Response
     {
         if(($valid = $this->validSession($session)) === false) {
-            return $this->render('index/edit.html.twig');
+            return $this->redirectToRoute('app_user_login');
         }
 
         if($this->sessionDTO->getAdmin() != "1") {
@@ -394,7 +394,7 @@ class UserController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('index/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             $user = $userRepository->find($id);

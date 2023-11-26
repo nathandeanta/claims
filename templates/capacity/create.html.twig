@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/dropify/dropify.min.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            {%  if error is defined %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ type_error }}</strong> {{ message_error}}
+                </div>
+            {% endif %}
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ title }}</h4>
+                        <form class="form-sample" action="{{ path('app_capacity_persist') }}" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Descrição</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="desc" required  value="{% if desc is defined %}{{ desc }}{% endif %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}"></script>
+    <script src="{{ asset(path ~'js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset(path ~'js/dropify.js')}}"></script>
+
+{% endblock %}

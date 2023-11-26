@@ -2,28 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\ColorRepository;
+use App\Repository\CapacityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ColorRepository::class)]
-class Color
+#[ORM\Entity(repositoryClass: CapacityRepository::class)]
+class Capacity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_color = null;
+    private ?int $id_capacity = null;
+
     #[ORM\Column]
     private ?string $title = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $created = null;
 
-    /**
-     * @return int|null
-     */
-    public function getIdColor(): ?int
+    public function getIdCapacity(): ?int
     {
-        return $this->id_color;
+        return $this->id_capacity;
     }
 
     /**
@@ -57,6 +55,5 @@ class Color
     {
         $this->created = $created;
     }
-
 
 }

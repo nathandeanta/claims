@@ -95,7 +95,7 @@ class MarchineLearningController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('index/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             if ($request->isMethod('GET')) {
@@ -104,7 +104,6 @@ class MarchineLearningController extends Controller
 
             $type = $request->request->get("type")??'';
             $desc = $request->request->get("desc")??'';
-
 
             if(empty($type) or empty($desc)) {
                 return $this->render('marchine_learning/create.html.twig', [
@@ -161,7 +160,7 @@ class MarchineLearningController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('marchine_learning/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             $marchineService = new MarchineLearningService();
@@ -191,7 +190,7 @@ class MarchineLearningController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('marchine_learning/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             $marchineService = new MarchineLearningService();
@@ -211,7 +210,7 @@ class MarchineLearningController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('index/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             if ($request->isMethod('GET')) {
@@ -281,7 +280,7 @@ class MarchineLearningController extends Controller
         try {
 
             if (($valid = $this->validSession($session)) === false) {
-                return $this->render('index/index.html.twig');
+                return $this->redirectToRoute('app_user_login');
             }
 
             if ($request->isMethod('GET')) {

@@ -2,29 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ColorRepository;
+use App\Repository\ModelPhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ColorRepository::class)]
-class Color
+#[ORM\Entity(repositoryClass: ModelPhoneRepository::class)]
+class ModelPhone
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_color = null;
+    private ?int $id_model_phone = null;
+
     #[ORM\Column]
     private ?string $title = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $created = null;
-
-    /**
-     * @return int|null
-     */
-    public function getIdColor(): ?int
-    {
-        return $this->id_color;
-    }
 
     /**
      * @return string|null
@@ -58,5 +51,9 @@ class Color
         $this->created = $created;
     }
 
+    public function getIdModelPhone(): ?int
+    {
+        return $this->id_model_phone;
+    }
 
 }

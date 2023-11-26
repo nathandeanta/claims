@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{ asset(path ~'css/demo_1/style.css')}}">
+    <link rel="shortcut icon" href="{{ asset(path ~'images/favicon.ico')}}" />
+
+{% endblock %}
+
+{% block title %} {{ title }}{% endblock %}
+
+{% block body %}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <form  action="{{ path('app_phone_view') }}" method="POST" >
+                <button type="submit" class="btn btn-gradient-dark btn-fw">+ Adicionar</button>
+            </form>
+            <h3 class="page-title"> {{title}} </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">{{title}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ object }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{title}}</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <table id="order-listing" class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Descricao</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for item in list %}
+
+                                <tr>
+                                    <td>{{ item.IdModelPhone }}</td>
+                                    <td>{{ item.title }}</td>
+
+                                    <td>
+                                        <form action="{{ path('app_phone_view_edit',{'id': item.IdModelPhone}) }}"><button type="submit" class="btn btn-outline-primary">View</button></form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+        </div>
+    </footer>
+
+    <script src=".{{ asset(path ~'vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/datatables.net/jquery.dataTables.js')}}"></script>
+    <script src="{{ asset(path ~'vendors/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{ asset(path ~'js/off-canvas.js')}}"></script>
+    <script src="{{ asset(path ~'js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset(path ~'js/misc.js')}}"></script>
+    <script src="{{ asset(path ~'js/settings.js')}}]"></script>
+    <script src="{{ asset(path ~'js/todolist.js')}}"></script>
+    <script src="{{ asset(path ~'js/jquery.cookie.js')}}"></script>
+    <script src="{{ asset(path ~'js/data-table.js')}}"></script>
+
+    {% endblock %}
