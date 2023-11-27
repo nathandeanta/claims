@@ -12,12 +12,20 @@ class Address
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id_address = null;
-    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\OneToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(name: "id_client", referencedColumnName: "id_client"),]
     private ?Client $client = null;
+    #[ORM\Column]
+    private ?string $cep = null;
+    #[ORM\Column]
+    private ?string $city = null;
+    #[ORM\Column]
+    private ?string $state = null;
+    #[ORM\Column]
+    private ?string $neighborhood= null;
 
     #[ORM\Column]
-    private ?string $description = null;
+    private ?string $address= null;
 
     #[ORM\Column]
     private ?string $number = null;
@@ -33,17 +41,81 @@ class Address
     /**
      * @return string|null
      */
-    public function getDescription(): ?string
+    public function getCep(): ?string
     {
-        return $this->description;
+        return $this->cep;
     }
 
     /**
-     * @param string|null $description
+     * @param string|null $cep
      */
-    public function setDescription(?string $description): void
+    public function setCep(?string $cep): void
     {
-        $this->description = $description;
+        $this->cep = $cep;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     */
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string|null $state
+     */
+    public function setState(?string $state): void
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNeighborhood(): ?string
+    {
+        return $this->neighborhood;
+    }
+
+    /**
+     * @param string|null $neighborhood
+     */
+    public function setNeighborhood(?string $neighborhood): void
+    {
+        $this->neighborhood = $neighborhood;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     */
+    public function setAddress(?string $address): void
+    {
+        $this->address = $address;
     }
 
     /**
@@ -77,6 +149,8 @@ class Address
     {
         $this->reference = $reference;
     }
+
+
 
     /**
      * @return Client|null

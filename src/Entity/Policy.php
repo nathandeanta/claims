@@ -14,7 +14,7 @@ class Policy
     private ?int $id_policy = null;
 
     #[ORM\Column]
-    private ?string $number = null;
+    private mixed $number = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $created = null;
@@ -22,36 +22,43 @@ class Policy
     #[ORM\ManyToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(name: "id_client", referencedColumnName: "id_client"),]
     private ?Client $client = null;
+    #[ORM\ManyToOne(targetEntity: TypeRoofing::class)]
+    #[ORM\JoinColumn(name: "id_type_roofing", referencedColumnName: "id_type_roofing"),]
+    private ?TypeRoofing $typeRoofing = null;
+
+    #[ORM\ManyToOne(targetEntity: ModelPhone::class)]
+    #[ORM\JoinColumn(name: "id_model_phone", referencedColumnName: "id_model_phone"),]
+    private ?ModelPhone $modelPhone = null;
+
+    #[ORM\ManyToOne(targetEntity: Color::class)]
+    #[ORM\JoinColumn(name: "id_color", referencedColumnName: "id_color")]
+    private ?Color $color = null;
+
+    #[ORM\ManyToOne(targetEntity: Capacity::class)]
+    #[ORM\JoinColumn(name: "id_capacity", referencedColumnName: "id_capacity")]
+    private ?Capacity $capacity = null;
 
     /**
-     * @return Client|null
+     * @return int|null
      */
-    public function getClient(): ?Client
+    public function getIdPolicy(): ?int
     {
-        return $this->client;
+        return $this->id_policy;
     }
 
-    /**
-     * @param Client|null $client
-     */
-    public function setClient(?Client $client): void
-    {
-        $this->client = $client;
-    }
-
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getNumber(): ?string
+    public function getNumber(): mixed
     {
         return $this->number;
     }
 
     /**
-     * @param string|null $number
+     * @param mixed $number
      */
-    public function setNumber(?string $number): void
+    public function setNumber(mixed $number): void
     {
         $this->number = $number;
     }
@@ -72,9 +79,84 @@ class Policy
         $this->created = $created;
     }
 
-    public function getIdPolicy(): ?int
+    /**
+     * @return Client|null
+     */
+    public function getClient(): ?Client
     {
-        return $this->id_policy;
+        return $this->client;
+    }
+
+    /**
+     * @param Client|null $client
+     */
+    public function setClient(?Client $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return TypeRoofing|null
+     */
+    public function getTypeRoofing(): ?TypeRoofing
+    {
+        return $this->typeRoofing;
+    }
+
+    /**
+     * @param TypeRoofing|null $typeRoofing
+     */
+    public function setTypeRoofing(?TypeRoofing $typeRoofing): void
+    {
+        $this->typeRoofing = $typeRoofing;
+    }
+
+    /**
+     * @return ModelPhone|null
+     */
+    public function getModelPhone(): ?ModelPhone
+    {
+        return $this->modelPhone;
+    }
+
+    /**
+     * @param ModelPhone|null $modelPhone
+     */
+    public function setModelPhone(?ModelPhone $modelPhone): void
+    {
+        $this->modelPhone = $modelPhone;
+    }
+
+    /**
+     * @return Color|null
+     */
+    public function getColor(): ?Color
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param Color|null $color
+     */
+    public function setColor(?Color $color): void
+    {
+        $this->color = $color;
+    }
+
+    /**
+     * @return Capacity|null
+     */
+    public function getCapacity(): ?Capacity
+    {
+        return $this->capacity;
+    }
+
+    /**
+     * @param Capacity|null $capacity
+     */
+    public function setCapacity(?Capacity $capacity): void
+    {
+        $this->capacity = $capacity;
     }
 
 
