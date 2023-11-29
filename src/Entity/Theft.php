@@ -23,6 +23,63 @@ class Theft
     #[ORM\JoinColumn(name: "id_policy", referencedColumnName: "id_policy")]
     private ?Policy $policy = null;
 
+    #[ORM\Column (nullable: true)]
+    private ?\DateTime  $ai_procces= null;
+
+    #[ORM\Column(type:"string",nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(type:"string",nullable: true)]
+    private ?string $response = null;
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getAiProcces(): ?\DateTime
+    {
+        return $this->ai_procces;
+    }
+
+    /**
+     * @param \DateTime|null $ai_procces
+     */
+    public function setAiProcces(?\DateTime $ai_procces): void
+    {
+        $this->ai_procces = $ai_procces;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResponse(): ?string
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param string|null $response
+     */
+    public function setResponse(?string $response): void
+    {
+        $this->response = $response;
+    }
+
     /**
      * @return string|null
      */

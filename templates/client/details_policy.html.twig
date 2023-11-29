@@ -26,13 +26,31 @@
                         </div>
                     </div>
 
+                    {% if theftStatus == true %}
+
+
+                        {% if theft.status == 'Negado' %}
+
+                            {% set color = "danger" %}
+
+                        {% elseif theft.status == 'Aprovado' %}
+
+                            {% set color = "success" %}
+
+                        {% else %}
+
+                        {% set color = "info" %}
+
+                        {% endif %}
+
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-center">
                                 <div class="d-flex flex-column ms-6">
-                                    <div class="card bg-gradient-danger card-img-holder text-white">
+                                    <div class="card bg-gradient-{{ color}} card-img-holder text-white">
                                         <div class="card-body">
-                                            <h4 class="font-weight-normal mb-3">Sob análise</h4>
+                                            <h4 class="font-weight-normal mb-3">{{ theft.status }}</h4>
+                                            <small class="text-muted">{{ theft.response }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -40,14 +58,12 @@
                         </div>
                     </div>
 
-
-
+                    {% endif %}
 
                 </div>
 
 
-
-            {% if theft == false %}
+            {% if theftStatus == false %}
             <div class="row">
                 <form  action="{{ path('policy_create_theft', {'id': policy.idPolicy}) }}" method="POST" >
                     <button type="submit" class="btn btn-gradient-dark btn-fw">+ Adicionar</button>

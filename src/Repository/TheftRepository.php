@@ -45,4 +45,35 @@ class TheftRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllNoProcessAi()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.ai_procces IS NULL')
+            ->andWhere('t.status IS NULL')
+            ->andWhere('t.response IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countTheftsWithNullValues(): int
+    {
+        return (int)$this->createQueryBuilder('t')
+            ->select('COUNT(t.id_theft)')
+            ->andWhere('t.ai_procces IS NULL')
+            ->andWhere('t.status IS NULL')
+            ->andWhere('t.response IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countTheftsbyStatus($status): int
+    {
+        return (int)$this->createQueryBuilder('t')
+            ->select('COUNT(t.id_theft)')
+            ->andWhere('t.status = :var')
+            ->setParameter('var', $status)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

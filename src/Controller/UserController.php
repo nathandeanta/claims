@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Helper\Util;
+use App\Repository\TheftRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -87,7 +88,7 @@ class UserController extends Controller
     }
 
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function dashboard(Request $request, SessionInterface $session): Response
+    public function dashboard(Request $request, SessionInterface $session, TheftRepository $theftRepository): Response
     {
         try {
 
@@ -99,6 +100,9 @@ class UserController extends Controller
                 'path' => $this->getPathEnv(),
                 'title'=> 'Dashboard',
                 'session'=> $this->sessionDTO,
+                'aprovado'=>$theftRepository->countTheftsbyStatus("Aprovado"),
+                "reprovado"=> $theftRepository->countTheftsbyStatus("Negado"),
+                'ana'=>$theftRepository->countTheftsWithNullValues()
             ]);
 
         }catch (Exception $e) {

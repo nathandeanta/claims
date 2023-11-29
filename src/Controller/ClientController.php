@@ -197,13 +197,14 @@ class ClientController extends Controller
             $theft = $theftRepository->findOneBy(["policy"=> $policy]);
 
             if(!$theft) {
-                $theft = false;
+                $theftStatus = false;
             }
 
             return $this->render('client/details_policy.html.twig', [
                 'path' => $this->getPathEnv(),
                 'title'=> 'Detalhes de apolices',
                 'policy'=> $policy,
+                'theftStatus'=> $theftStatus??true,
                 'theft'=> $theft,
                 'session'=> $this->sessionDTO,
                 'address'=>$addressRepository->findBy(["client"=> $clientRepository->find($this->sessionDTO->getIdUser())])
