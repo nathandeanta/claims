@@ -51,7 +51,7 @@ class Controller extends AbstractController
         $env = $_ENV["APP_ENV"]??'dev';
 
         if($env == 'prod') {
-            return  "public/";
+            return  "https://guardian-phone.dev-louco.net/public/";
         }else{
             return "../../";
         }
