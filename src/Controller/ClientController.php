@@ -44,6 +44,29 @@ class ClientController extends Controller
         }
     }
 
+    #[Route('/', name: 'app_client_default')]
+    public function defaultLogin(Request $request, SessionInterface $session): Response
+    {
+        try {
+
+            if (($valid = $this->validSession($session)) === true) {
+                return $this->render('client/dashboard.html.twig');
+            }
+
+            return $this->render('client/index.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> ' Login Cliente'
+            ]);
+
+        }catch (Exception $e) {
+            return $this->render('client/index.html.twig', [
+                'controller_name' => 'ClientController',
+                'path' => $this->getPathEnv(),
+                'title'=> ' Login Cliente'
+            ]);
+        }
+    }
+
     #[Route('/client/login', name: 'client_login')]
     public function login(Request $request,SessionInterface $session, ClientRepository $clientRepository): Response
     {
