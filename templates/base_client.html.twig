@@ -31,16 +31,16 @@
                         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">HOME</a>
+                                    <a class="nav-link" href="{{ path('client_dashboard') }}">HOME</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">APOLICES</a>
+                                    <a class="nav-link" href="{{ path('client_policy', {'id': session.getIdUser()}) }}">APOLICES</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">INFORMAÇÕES PESSOAIS</a>
+                                    <a class="nav-link" href="{{ path('client_policy', {'id': session.getIdUser()}) }}">ACIONAR SEGURO</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">ACIONAR SEGURO</a>
+                                    <a class="nav-link" href="{{ path('app_user_logout_client') }}">LOGOUT</a>
                                 </li>
                             </ul>
                         </div>

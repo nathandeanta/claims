@@ -22,7 +22,7 @@ class ClientService
         return (
             $this->clientRepository->findOneBy(
             [
-                'document'=>Helper::cleanCnpjAndCpf($email),
+                'document'=> Helper::cleanCnpjAndCpf($email),
                 'password' => md5($password),
                 'active'=> '1'
             ])

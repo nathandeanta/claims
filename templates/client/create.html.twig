@@ -1,0 +1,237 @@
+{% extends 'base_client.html.twig' %}
+
+{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %}
+
+{% block body %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <a class="nav-link" href="{{ path('client_policy_open', {'id': policy.idPolicy}) }}">
+                                    <i class="mdi mdi-dialpad text-primary d-flex align-items-center"></i>
+                                </a>
+                                <div class="d-flex flex-column ms-4">
+                                    <div class="d-flex flex-column">
+                                        <p class="mb-0">{{ policy.getTypeRoofing().title }}</p>
+                                        <h4 class="font-weight-bold">{{ policy.number }}</h4>
+                                        <small class="text-muted">{{ policy.getModelPhone().title }} {{ policy.getCapacity().title }} {{ policy.getColor().title }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <h4 class="card-title">{{ title }}</h4>
+            <form class="form-sample" action="{{ path('create_theft_persist', {'id':policy.idPolicy}) }}" method="POST">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrição do que aconteceu</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" id="exampleTextarea1" rows="6" name="desc" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data da ocorrência</label>
+                            <div class="col-sm-6">
+                                <input type="date" class="form-control" name="date_o" required value=""/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control" name="email" required  value="{{ policy.getClient().email }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Celular</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="cellphone" required  value="{{ policy.getClient().cellPhone }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Telefone:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="phone" required  value="{{ policy.getClient().phone }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Outro Telefone de contato:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="other_phone" required  value="{{ policy.getClient().otherPhone }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">CEP</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="cep" id="cep" required  value="{{ address[0].cep }}" oninput="consultarCEP()"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Estado</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="state" id="state" required  value="{{ address[0].state }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Cidade</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="city" id="city" required  value="{{ address[0].city }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Bairro</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="neighborhood" id="neighborhood" required  value="{{ address[0].neighborhood }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Endereco</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="address" id="address" required  value="{{ address[0].address }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Numero</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="number" required  value="{{ address[0].number }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Referencia</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="reference" required  value="{{ address[0].reference }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    <script>
+        function formatarCpfCnpj(valor) {
+            valor = valor.replace(/\D/g, '');
+
+            if (valor.length === 11) {
+                return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (valor.length === 14) {
+                return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            } else {
+                return valor;
+            }
+        }
+
+        function aplicarMascara() {
+            var campo = document.getElementById('document');
+            campo.value = formatarCpfCnpj(campo.value);
+        }
+
+        function formatRG(valor) {
+            valor = valor.replace(/\D/g, '');
+            return valor.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})$/, '$1.$2.$3-$4');
+
+        }
+
+        function aplicarMascaraRG() {
+            var campo = document.getElementById('rg');
+            campo.value = formatRG(campo.value);
+        }
+
+    </script>
+
+
+    <script>
+        function consultarCEP() {
+            // Obtém o valor do CEP digitado pelo usuário
+            var cep = document.getElementById('cep').value;
+
+
+            if (cep.length >= 8) {
+                // Monta a URL da API do ViaCEP com o CEP fornecido
+                var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+
+                // Faz a requisição AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Parseia a resposta JSON
+                        var resposta = JSON.parse(xhr.responseText);
+
+                        // Atualiza os campos no HTML com os dados do CEP
+                        document.getElementById('address').value = resposta.logradouro;
+                        // document.getElementById('complemento').value = resposta.complemento;
+                        document.getElementById('neighborhood').value = resposta.bairro;
+                        document.getElementById('city').value = resposta.localidade;
+                        document.getElementById('state').value = resposta.uf;
+                    }
+                };
+
+                xhr.open('GET', url, true);
+                xhr.send();
+            }
+        }
+    </script>
+
+
+{% endblock %}

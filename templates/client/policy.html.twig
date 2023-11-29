@@ -1,0 +1,39 @@
+{% extends 'base_client.html.twig' %}
+
+{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %}
+
+{% block body %}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+
+
+        {% for item in list %}
+
+            <div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <a class="nav-link" href="{{ path('client_policy_open', {'id': item.idPolicy}) }}">
+                                <i class="mdi mdi-dialpad text-primary d-flex align-items-center"></i>
+                            </a>
+                            <div class="d-flex flex-column ms-4">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0">{{ item.getTypeRoofing().title }}</p>
+                                    <h4 class="font-weight-bold">{{ item.number }}</h4>
+                                    <small class="text-muted">{{ item.getModelPhone().title }} {{ item.getCapacity().title }} {{ item.getColor().title }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+
+
