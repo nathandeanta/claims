@@ -7,6 +7,7 @@ use App\Entity\Client;
 use App\Helper\Helper;
 use App\Repository\AddressRepository;
 use App\Repository\ClientRepository;
+use App\Repository\PolicyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -257,7 +258,9 @@ class AdminClientController extends Controller
     }
 
     #[Route('/adminClient/viewEdit/{id}', name: 'app_admin_client_view_edit')]
-    public function capacityEdit(Request $request, int $id, SessionInterface $session,ClientRepository $clientRepository, AddressRepository $addressRepository): Response
+    public function capacityEdit(Request $request, int $id, SessionInterface $session,
+                                 ClientRepository $clientRepository,
+                                 AddressRepository $addressRepository, PolicyRepository $policyRepository): Response
     {
         try{
 
@@ -276,7 +279,8 @@ class AdminClientController extends Controller
                 'title'=> 'Editar Cliente',
                 'session'=> $this->sessionDTO,
                 'object'=> $object,
-                'address'=>$addressRepository->findBy(["client"=> $object])
+                'address'=>$addressRepository->findBy(["client"=> $object]),
+                'count_apolice'=> $policyRepository->countApolicesByclient($object)
             ]);
 
         }catch (\Exception $e) {

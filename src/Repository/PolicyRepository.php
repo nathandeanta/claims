@@ -45,4 +45,13 @@ class PolicyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function countApolicesByclient(\App\Entity\Client $object)
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COUNT(t.id_policy)')
+            ->andWhere('t.client = :var')
+            ->setParameter('var', $object)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
