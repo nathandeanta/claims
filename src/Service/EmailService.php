@@ -19,9 +19,8 @@ class EmailService
     public function sendMailPassword($email,$name, ?string $getCode)
     {
 
-        $url = $ENV["URL"]?? null;
 
-        $url.="/updatePassword/".$getCode;
+        $url ="https://guardian-phone.dev-louco.net//updatePassword/".$getCode;
 
         $html = '<!DOCTYPE html>
                 <html lang="pt">
