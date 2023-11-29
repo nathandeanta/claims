@@ -2,20 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Password;
 use App\Entity\Theft;
 use App\Helper\Helper;
 use App\Repository\AddressRepository;
 use App\Repository\ClientRepository;
+use App\Repository\PasswordRepository;
 use App\Repository\PolicyRepository;
 use App\Repository\TheftRepository;
 use App\Service\ClientService;
+use App\Service\EmailService;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-
+//use Symfony\Component\Mailer\MailerInterface;
 class ClientController extends Controller
 {
     #[Route('/client', name: 'app_client')]
@@ -122,6 +125,8 @@ class ClientController extends Controller
             ]);
         }
     }
+
+
 
     #[Route('/client/{id}/policy', name: 'client_policy')]
     public function policy(Request $request, int $id,SessionInterface $session, PolicyRepository $policyRepository, ClientRepository $clientRepository): Response
@@ -381,6 +386,193 @@ class ClientController extends Controller
                 'title'=> 'Error',
                 'error'=> ":".$e->getMessage()." file=".$e->getMessage()." line:".$e->getLine(),
                 'session'=> $this->sessionDTO,
+            ]);
+        }
+    }
+
+    #[Route('/client/forget', name: 'client_forget')]
+    public function forget(Request $request, SessionInterface $session): Response
+    {
+        try {
+
+            return $this->render('client/forget-password.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Reenviar Senha',
+            ]);
+
+        }catch (Exception $e) {
+            return $this->render('error/500-cli.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Error',
+                'error'=> ":".$e->getMessage()." file=".$e->getMessage()." line:".$e->getLine(),
+            ]);
+        }
+    }
+
+    #[Route('/updatePassword/{code}', name: 'updatePassword')]
+    public function updatePassword(string $code, PasswordRepository $passwordRepository): Response
+    {
+        try {
+
+            $password = $passwordRepository->findOneBy(['code'=> $code]);
+
+            if ($password->getCode() == $code && is_null($password->getSubmit())) {
+
+                    return $this->render('client/update_password.html.twig', [
+                        'path' => $this->getPathEnv(),
+                        'title'=> 'Atualizar Senha',
+                        'object'=> $password
+                    ]);
+
+            }
+
+                return $this->render('client/update_password.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Reenviar Senha',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => "link expirado",
+                    'object'=> $password
+                ]);
+
+
+        }catch (Exception $e) {
+            return $this->render('client/update_password.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Error',
+                'error'=> ":".$e->getMessage()." file=".$e->getMessage()." line:".$e->getLine(),
+                'type_error' => "Error",
+                'message_error' => "cep, cidade, estado, bairro e  number date and phone nao pode ser vazia",
+                'object'=> $validPasswords??null
+            ]);
+        }
+    }
+
+    //updatePassword
+
+    #[Route('/client/forgetSend', name: 'app_forget_client', methods:["POST"])]
+    public function forgetClient(Request $request,
+    ClientRepository $clientRepository, EntityManagerInterface $entityManager,
+                                /* MailerInterface $mailer*/): Response
+    {
+        try {
+
+            $document = $request->request->get("document")??'';
+            $email = $request->request->get("email")??'';
+
+            if(empty($email) && empty($document)) {
+                return $this->render('client/forget-password.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Reenviar Senha',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => "CPF/CNPJ, email nao podem ser vazios",
+                    'email'=> $email,
+                    'document'=> $document
+
+                ]);
+            }
+
+            $client = $clientRepository->findOneBy(['document'=> Helper::cleanCnpjAndCpf($document), 'email'=> $email]);
+
+
+            if(!$client) {
+                return $this->render('client/forget-password.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Reenviar Senha',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => ": Nao encontramos, por favor entrar em contato com suporte",
+                    'email'=> $email,
+                    'document'=> $document
+                ]);
+            }
+
+
+            $password =  new Password();
+
+            $password->setClient($client);
+            $password->setCode(md5($client->getFirstName().$client->getDocument().date("Td-m-Y-H-i-s")));
+            $password->setCreated(new \DateTime());
+            $password->setExpired((new \DateTime())->add(new \DateInterval('PT20M')));
+
+            $entityManager->persist($password);
+            $entityManager->flush();
+
+            /* $emailService = new EmailService($mailer);
+             $emailService->sendMailPassword($client->getEmail(),$client->getFirstName()." ".$client->getLastName(), $password->getCode());*/
+
+            return $this->render('client/forget-password.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Reenviar Senha',
+                'status'=>true
+            ]);
+
+        }catch (Exception $e) {
+            return $this->render('client/forget-password.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Reenviar Senha',
+                'error' => true,
+                'type_error' => "Error",
+                'message_error' => $e->getMessage(),
+                'email'=> $email,
+                'document'=> $document
+            ]);
+        }
+    }
+
+    #[Route('/updatePasswordPersist/{code}', name: 'updatePassword_persist', methods:["POST"])]
+    public function updatePasswordPersist(string $code,Request $request, PasswordRepository $passwordRepository, EntityManagerInterface $entityManager): Response
+    {
+        try {
+
+
+            $validPasswords = $passwordRepository->findOneBy(['code'=> $code]);
+
+            if ($validPasswords ->getCode() == $code && !is_null($validPasswords ->getSubmit())) {
+
+                return $this->render('client/update_password.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Atualziar Senha',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => "link expirado"
+                ]);
+
+            }
+
+            $password = $request->request->get("password")??'';
+            $password2 = $request->request->get("password2")??'';
+
+            if($password != $password2) {
+                return $this->render('client/update_password.html.twig', [
+                    'path' => $this->getPathEnv(),
+                    'title'=> 'Atualziar Senha',
+                    'error' => true,
+                    'type_error' => "Error",
+                    'message_error' => "As senhas nao sao iguais"
+                ]);
+            }
+
+            $client = $validPasswords->getClient();
+            $client->setPassword(md5($password));
+
+            $entityManager->persist($client);
+            $entityManager->flush();
+
+            $validPasswords->setSubmit(new \DateTime());
+            $entityManager->persist($validPasswords);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('client_login');
+
+        }catch (Exception $e) {
+            return $this->render('client/update_password.html.twig', [
+                'path' => $this->getPathEnv(),
+                'title'=> 'Error',
+                'message_error'=> ":".$e->getMessage()." file=".$e->getMessage()." line:".$e->getLine(),
+                'type_error' => "Error",
+                'error' => true,
             ]);
         }
     }
