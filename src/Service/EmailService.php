@@ -9,22 +9,11 @@ use Symfony\Component\Mime\Email;
 
 class EmailService
 {
-    private $mailer;
 
-    public function __construct(MailerInterface $mailer)
-    {
-        $this->mailer = $mailer;
-    }
+    public function sendMail($to,$subject, $body, $headers)
+    {;
+        return   mail($to, $subject, $body, $headers) ;
 
-    public function sendMail($to, $body): void
-    {
-        $email = (new Email())
-            ->from(new Address($_ENV["MAIL_FROM"],'Troca de senha Guardian Phone' ))
-            ->to($to)
-            ->subject('Troca de senha')
-            ->html($body);
-
-        $this->mailer->send($email);
     }
 
     public function sendMailPassword($email,$name, ?string $getCode)
@@ -66,8 +55,10 @@ class EmailService
                 </html>
 ';
 
+        $headers = "From: guardian-phone-noreply@dev-louco.net\r\n";
+        $headers .= "Content-type: text/html; charset=UTF-8\r\n";
 
-        $this->sendMail($email, $html);
+       return   $this->sendMail($email,'Redefinição de Senha',$html, $headers);
     }
 
 }
