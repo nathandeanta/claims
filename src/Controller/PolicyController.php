@@ -82,7 +82,7 @@ class PolicyController extends Controller
                 'color'=> $colorRepository->findBy([],["title"=> "ASC"]),
                 'model'=> $modelPhoneRepository->findBy([],["title"=> "ASC"]),
                 'capacity'=> $capacityRepository->findBy([],["title"=> "ASC"]),
-                'typeRoofing'=>$typeRoofingRepository->findBy([],["title"=> "ASC"]),
+                'typeRoofing'=>$typeRoofingRepository->findBy(['title'=> "Roubo"],["title"=> "ASC"]),
             ]);
 
         }catch (\Exception $e) {
@@ -182,7 +182,7 @@ class PolicyController extends Controller
                 'color'=> $colorRepository->findBy([],["title"=> "ASC"]),
                 'model'=> $modelPhoneRepository->findBy([],["title"=> "ASC"]),
                 'capacity'=> $capacityRepository->findBy([],["title"=> "ASC"]),
-                'typeRoofing'=>$typeRoofingRepository->findBy([],["title"=> "ASC"]),
+                'typeRoofing'=>$typeRoofingRepository->findBy(['title'=> "Roubo"],["title"=> "ASC"]),
             ]);
 
         }catch (\Exception $e) {
