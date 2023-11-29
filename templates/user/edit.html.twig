@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <img src="../../../{{ user.avatar is null or user.avatar == "" ? "uploads/avatars/default-user.jpeg": user.avatar }}" alt="profile" class="img-lg rounded-circle mb-3" />
+                        <img src="{{ user.avatar is null or user.avatar == "" ? "public/uploads/avatars/default-user.jpeg": user.avatar }}" alt="profile" class="img-lg rounded-circle mb-3" />
                         <h4 class="card-title">{{ title }}</h4>
                         <form class="form-sample" action="{{ path('app_user_view_update',{'id_user': user.idUser}) }}" method="POST" enctype="multipart/form-data">
                             <div class="row">

@@ -193,6 +193,8 @@ class UserController extends Controller
 
         $user = $userRepository->find($id_user);
 
+        $user->setAvatar($this->getPathEnvAvatar().$user->getAvatar());
+
         if(!$user) {
             return $this->redirectToRoute('app_user');
         }
