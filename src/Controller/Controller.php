@@ -48,7 +48,7 @@ class Controller extends AbstractController
 
     protected function  getPathEnvAvatar(): string
     {
-        $env = $_ENV["APP_ENV"]??'dev';
+        $env = $_ENV["APP_ENV_PATH"]??'dev';
 
         if($env == 'prod') {
             return  "https://guardian-phone.dev-louco.net/public/";
