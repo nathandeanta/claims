@@ -19,12 +19,12 @@ class EmailService
     public function sendMailPassword($email,$name, ?string $getCode)
     {
 
-        $url = $ENV["URL"]?? 'url-test';
+        $url = $ENV["URL"]?? null;
 
         $url.="/updatePassword/".$getCode;
 
         $html = '<!DOCTYPE html>
-                <html lang="en">
+                <html lang="pt">
                 <head>
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
