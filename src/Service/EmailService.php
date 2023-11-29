@@ -20,7 +20,7 @@ class EmailService
     {
 
 
-        $url ="https://guardian-phone.dev-louco.net//updatePassword/".$getCode;
+        $url ="https://guardian-phone.dev-louco.net/updatePassword/".$getCode;
 
         $html = '<!DOCTYPE html>
                 <html lang="pt">
