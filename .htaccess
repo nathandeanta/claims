@@ -1,0 +1,69 @@
+# Use o front controller como arquivo de índice. Serve como uma solução alternativa quando
+# todas as outras reescritas/redirecionamentos falham (por exemplo, em um ambiente com alias sem
+#mod_rewrite). Além disso, isso reduz o processo de correspondência para o
+# página inicial (caminho "/") porque caso contrário o Apache aplicará as regras de reescrita
+# para cada arquivo DirectoryIndex configurado (por exemplo, index.php, index.html, index.pl).
+Índice de diretórioIndex.php
+
+# Por padrão, o Apache não avalia links simbólicos se você não habilitou este
+# recurso na configuração do seu servidor. Remova o comentário da seguinte linha se você
+# instale ativos como links simbólicos ou se você tiver problemas relacionados a links simbólicos
+# ao compilar ativos LESS/Sass/CoffeScript.
+# Opções FollowSymlinks
+
+# Desativar MultiViews evita negociações indesejadas, por exemplo, "/index" não deve resolver
+# para o front controller "/index.php" mas será reescrito para "/index.php/index".
+<IfModule mod_negotiation.c>
+    Opções -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine ativado
+
+    # Determine o RewriteBase automaticamente e defina-o como variável de ambiente.
+    # Se você estiver usando aliases do Apache para fazer hospedagem virtual em massa ou instalou o
+    # projeto em um subdiretório, o caminho base será anexado para permitir o uso adequado
+    # resolução do arquivo index.php e redirecionamento para o URI correto. Ele vai
+    # também funciona em ambientes sem prefixo de caminho, fornecendo um ambiente seguro e de tamanho único
+    # cabe em todas as soluções. Mas como você não precisa neste caso, você pode comentar
+    # as 2 linhas a seguir para eliminar a sobrecarga.
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
+
+    # Define o cabeçalho HTTP_AUTHORIZATION removido pelo Apache
+    RewriteCond %{HTTP:Autorização} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+    # Redirecionar para URI sem front controller para evitar conteúdo duplicado
+    # (com e sem /index.php). Faça esse redirecionamento apenas no início
+    # reescrito pelo Apache e não nos ciclos subsequentes. Caso contrário, obteríamos um
+    # loop de redirecionamento infinito (solicitação -> reescrever para controlador frontal ->
+    # redirecionamento -> solicitação -> ...).
+    # Portanto, caso você receba um erro "muitos redirecionamentos" ou sempre seja redirecionado
+    # para a página inicial porque seu Apache não expõe o REDIRECT_STATUS
+    # variável de ambiente, você tem 2 opções:
+    # - desative este recurso comentando as 2 linhas a seguir ou
+    # - use Apache >= 2.3.9 e substitua todos os sinalizadores L por sinalizadores END e remova o
+    # seguindo RewriteCond (melhor solução)
+    ReescreverCond %{ENV:REDIRECT_STATUS} =""
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+    # Redireciona solicitações para arquivos CSS e JS para a pasta correta
+    RewriteRule ^assets/(css|js)/(.*)$ /public [L]
+
+    # Se o nome do arquivo solicitado existir, simplesmente sirva-o.
+    # Queremos apenas permitir que o Apache sirva arquivos e não diretórios.
+    # Reescreva todas as outras consultas no front controller.
+    ReescreverCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ %{ENV:BASE}/public/index.php [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        # Quando mod_rewrite não estiver disponível, instruímos um redirecionamento temporário de
+        # a página inicial para o front controller explicitamente para que o site
+        # e os links gerados ainda podem ser usados.
+        RedirectMatch 307 ^/$ /index.php/
+        # RedirectTemp não pode ser usado
+    </IfModule>
+</IfModule>
