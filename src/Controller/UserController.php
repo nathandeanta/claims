@@ -356,18 +356,39 @@ class UserController extends Controller
                         $newFilename
                     );
                 }catch (\Exception $e) {
-
-                    dd($e->getMessage());
+                    return $this->render('user/edit.html.twig', [
+                        'error' => true,
+                        'type_error'=> "Error",
+                        'message_error'=> $e->getMessage(),
+                        'title'=> "Edit User",
+                        'session'=> $this->sessionDTO,
+                        'user'=> $user??null,
+                        'path' => $this->getPathEnv(),
+                    ]);
                 }
 
                 $user->setAvatar($path);
-
             }
 
             try {
 
                 $entityManager->persist($user);
                 $entityManager->flush();
+
+
+                $session->start();
+
+                $session->set("client_id", $user->getIdUser());
+                $session->set("user_password", $user->getPassword());
+                $session->set("client_name", $user->getName());
+                $session->set("client_email", $user->getEmail());
+                $session->set("user_admin", $user->getAdmin());
+                $session->set("user_position", $user->getPosition());
+                $session->set("user_avatar", $user->getAvatar()??"uploads/avatars/default-user.jpeg");
+
+
+             //  $this->sessionDTO->setAvatar();
+
             }catch (UniqueConstraintViolationException $e) {
                 return $this->render('user/edit.html.twig', [
                     'error' => true,
