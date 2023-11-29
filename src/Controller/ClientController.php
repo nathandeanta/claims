@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-//use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 class ClientController extends Controller
 {
     #[Route('/client', name: 'app_client')]
@@ -477,7 +477,7 @@ class ClientController extends Controller
     #[Route('/client/forgetSend', name: 'app_forget_client', methods:["POST"])]
     public function forgetClient(Request $request,
     ClientRepository $clientRepository, EntityManagerInterface $entityManager,
-                                /* MailerInterface $mailer*/): Response
+                                 MailerInterface $mailer): Response
     {
         try {
 
@@ -523,8 +523,8 @@ class ClientController extends Controller
             $entityManager->persist($password);
             $entityManager->flush();
 
-            /* $emailService = new EmailService($mailer);
-             $emailService->sendMailPassword($client->getEmail(),$client->getFirstName()." ".$client->getLastName(), $password->getCode());*/
+             $emailService = new EmailService($mailer);
+             $emailService->sendMailPassword($client->getEmail(),$client->getFirstName()." ".$client->getLastName(), $password->getCode());
 
             return $this->render('client/forget-password.html.twig', [
                 'path' => $this->getPathEnv(),
