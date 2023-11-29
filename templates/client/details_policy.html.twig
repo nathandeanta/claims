@@ -33,15 +33,19 @@
 
                             {% set color = "danger" %}
 
+                            {% set message = theft.response  %}
+
                         {% elseif theft.status == 'Aprovado' %}
 
                             {% set color = "success" %}
+
+                            {% set message = theft.response  %}
 
                         {% else %}
 
                         {% set color = "info" %}
 
-                            {% set theft_response = "Sob análise" %}
+                            {% set message = "Sob análise" %}
 
                         {% endif %}
 
@@ -52,7 +56,7 @@
                                     <div class="card bg-gradient-{{ color}} card-img-holder text-white">
                                         <div class="card-body">
                                             <h4 class="font-weight-normal mb-3">{{ theft.status }}</h4>
-                                            <small class="text-muted">{{ theft.response }}</small>
+                                            <small class="text-muted">{{ message }}</small>
                                         </div>
                                     </div>
                                 </div>
