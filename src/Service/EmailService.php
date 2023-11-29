@@ -19,6 +19,7 @@ class EmailService
     public function sendMailPassword($email,$name, ?string $getCode)
     {
 
+        //wget -0 /dev/null https://guardian-phone.dev-louco.net//cron/ai
 
         $url ="https://guardian-phone.dev-louco.net/updatePassword/".$getCode;
 
