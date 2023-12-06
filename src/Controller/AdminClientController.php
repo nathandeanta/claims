@@ -394,6 +394,7 @@ class AdminClientController extends Controller
             $object->setOtherPhone($other_phone);
             $object->setDateOfBirth(new \DateTime($date));
             $object->setCreated(new \DateTime());
+            $object->setActive(1);
 
             $entityManager->persist($object);
             $entityManager->flush();
