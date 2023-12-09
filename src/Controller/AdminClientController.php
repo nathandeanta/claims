@@ -200,6 +200,7 @@ class AdminClientController extends Controller
             $object->setOtherPhone($other_phone);
             $object->setDateOfBirth(new \DateTime($date));
             $object->setCreated(new \DateTime());
+            $object->setPassword(md5("senha123"));
 
             $entityManager->persist($object);
             $entityManager->flush();
