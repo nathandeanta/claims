@@ -25,9 +25,6 @@ class ClientController extends Controller
     {
         try {
 
-            if (($valid = $this->validSession($session)) === true) {
-                return $this->render('client/dashboard.html.twig');
-            }
 
             return $this->render('client/index.html.twig', [
                 'path' => $this->getPathEnv(),
