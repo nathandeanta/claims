@@ -201,6 +201,7 @@ class AdminClientController extends Controller
             $object->setDateOfBirth(new \DateTime($date));
             $object->setCreated(new \DateTime());
             $object->setPassword(md5("senha123"));
+            $object->setActive("1");
 
             $entityManager->persist($object);
             $entityManager->flush();
