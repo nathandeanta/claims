@@ -26,7 +26,7 @@ class CapacityController extends Controller
                 'title'=> 'Lista de Capacidades',
                 'session'=> $this->sessionDTO,
                 'object'=> 'Capacidade',
-                'list'=> $capacityRepository->findBy([], ['title' => 'ASC'])
+                'list'=> $capacityRepository->findBy([], ['id_capacity' => 'ASC'])
             ]);
 
         }catch (\Exception $e) {
